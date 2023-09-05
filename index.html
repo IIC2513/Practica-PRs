@@ -1,0 +1,74 @@
+<html>
+  <head>
+  	<!-- Code heavily inspired from: https://github.com/muan/hello-world -->
+    <title>IIC2513 | Practica Pull-Requests</title>
+
+    <style>
+    body {
+        font-family: sans-serif;
+        padding: 10%;
+        text-align: center;
+        font-size: medium;
+        line-height: 1.65em;
+    }
+
+    img {
+        margin: 20px 10px 0;
+    }
+
+    code {
+        font-family: Consolas,"courier new";
+        color: crimson;
+        background-color: #f1f1f1;
+        padding: 2px;
+        font-size: 105%;
+    }
+
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    li {
+      display: inline;
+      margin: 10px;
+    }
+    </style>
+  </head>
+
+  <body>
+    <h1>¿Quiénes ya completaron su PR?</h1>
+
+    <small>Recuerda que este sitio puede demorar algunos minutos en actualizarse...</small>
+
+    <ul>
+      <li><a href="participantes.txt">Lista en <code>participantes.txt</code></a></li>
+      <li><a href="https://github.com/IIC2513/Practica-PRs/">Repo en GitHub 💻</a></li>
+    </ul>
+
+    <script type="text/javascript">
+      fetch('./participantes.txt').then(function (data) {
+        return data.text()
+      }).then(function (data) {
+        const logins = data.split('\n')
+        logins.forEach(function (login) {
+          if(!login) return
+
+          const a = document.createElement('a')
+          a.href = 'personas/' + login
+          const image = new Image(50, 50)
+          image.src = 'https://github.com/' + login + '.png?size=100'
+          a.appendChild(image)
+          document.body.appendChild(a)
+
+          image.onerror = function () {
+            a.remove()
+          }
+        })
+      })
+    </script>
+  </body>
+</html>
