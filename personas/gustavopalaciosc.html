@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gustavo Palacios</title>
+    <style>
+        body {
+            color: white;
+            font-family: sans-serif;
+            font-size: large;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.65em;
+            padding: 10% 15px;
+            margin: 0;
+            background: linear-gradient(-90deg, #ee7752, #ff2579, #3be22c, #d5c323);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            overflow-y: hidden;
+        }
+
+        .game-container {
+            position: relative;
+            width: 500px;
+            height: 270px;
+            margin: 0 auto;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .paddle {
+            position: absolute;
+            width: 10px;
+            height: 50px;
+            background-color: white;
+        }
+
+        .paddle.left {
+            left: 10px;
+        }
+
+        .paddle.right {
+            right: 10px;
+        }
+
+        .ball {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+        }
+
+        .points-block {
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            height: 100px;
+        }
+
+        .points-block h2 {
+            margin: 0; 
+            padding: 10px;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="main-content"></div>
+    <h1>👋</h1>
+    <p>Hola, soy <a href="https://github.com/gustavopalaciosc">@gustavopalaciosc</a> y este es mi archivo HTML.</p>
+    <p>Para jugar, hay que utilizar las teclas W y S para el jugador de la izquierda y la teclas ↑ y ↓ para el de la derecha</p>
+    </div>
+    <div class="pong-content">
+        <div class="points-block">
+            <h2 class="puntaje-jugador1"></h2>
+            <h2 class="puntaje-jugador2"></h2>
+        </div>
+        <div class="game-container">
+            <div class="paddle left" style="top: 50px;"></div>
+            <div class="paddle right" style="top: 50px;"></div>
+            <div class="ball" style="top: 140px; left: 240px;"></div>
+        </div>
+    </div>
+
+    <script>
+        
+        const paddleLeft = document.querySelector('.paddle.left');
+        const paddleRight = document.querySelector('.paddle.right');
+        const ball = document.querySelector('.ball');
+        const gameContainer = document.querySelector('.game-container');
+        const puntajeJugador1 = document.querySelector('.puntaje-jugador1');
+        const puntajeJugador2 = document.querySelector('.puntaje-jugador2');
+
+        let paddleLeftPosition = 50;
+        let paddleRightPosition = 50;
+        let ballPositionX = 240;
+        let ballPositionY = 140;
+        let ballSpeedX = 2;
+        let ballSpeedY = 2;
+        let puntaje1 = 0;
+        let puntaje2 = 0;
+
+        puntajeJugador1.textContent = puntaje1;
+        puntajeJugador2.textContent = puntaje2;
+
+
+
+        function update() {
+            paddleLeft.style.top = paddleLeftPosition + 'px';
+            paddleRight.style.top = paddleRightPosition + 'px';
+            ball.style.top = ballPositionY + 'px';
+            ball.style.left = ballPositionX + 'px';
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'w') {
+                paddleLeftPosition -= 10;
+            } else if (event.key === 's') {
+                paddleLeftPosition += 10;
+            } else if (event.key === 'ArrowUp') {
+                paddleRightPosition -= 10;
+            } else if (event.key === 'ArrowDown') {
+                paddleRightPosition += 10;
+            }
+
+            
+            paddleLeftPosition = Math.max(0, Math.min(gameContainer.clientHeight - paddleLeft.clientHeight, paddleLeftPosition));
+            paddleRightPosition = Math.max(0, Math.min(gameContainer.clientHeight - paddleRight.clientHeight, paddleRightPosition));
+
+           
+            update();
+        });
+
+        function animate() {
+        
+            ballPositionX += ballSpeedX;
+            ballPositionY += ballSpeedY;
+
+            if (ballPositionY <= 0 || ballPositionY >= gameContainer.clientHeight - ball.clientHeight) {
+                ballSpeedY *= -1;
+            }
+
+            if (ballPositionX <= paddleLeft.clientWidth && ballPositionY >= paddleLeftPosition && ballPositionY <= paddleLeftPosition + paddleLeft.clientHeight) {
+                ballSpeedX *= -1;
+            }
+
+            if (ballPositionX >= gameContainer.clientWidth - ball.clientWidth - paddleRight.clientWidth && ballPositionY >= paddleRightPosition && ballPositionY <= paddleRightPosition + paddleRight.clientHeight) {
+                ballSpeedX *= -1;
+            }
+
+
+            if (ballPositionX <= 0 ) {
+                ballPositionX = gameContainer.clientWidth / 2 - ball.clientWidth / 2;
+                ballPositionY = gameContainer.clientHeight / 2 - ball.clientHeight / 2;
+                puntaje2 += 1;
+                puntajeJugador2.textContent = puntaje2;
+
+            } else if (ballPositionX >= gameContainer.clientWidth - ball.clientWidth) {
+                ballPositionX = gameContainer.clientWidth / 2 - ball.clientWidth / 2;
+                ballPositionY = gameContainer.clientHeight / 2 - ball.clientHeight / 2;
+                puntaje1 += 1;
+                puntajeJugador1.textContent = puntaje1;
+
+            }
+
+            update();
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
