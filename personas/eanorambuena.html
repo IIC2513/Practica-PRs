@@ -1,0 +1,111 @@
+<html>
+  <head>
+    <title>@eanorambuena</title>
+
+    <style>
+	body {
+		color: white;
+		font-family: sans-serif;
+		font-size: large;
+		font-weight: bold;
+		text-align: center;
+		padding: 10% 15px;
+		margin: 0;
+		background: linear-gradient(-90deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+		background-size: 400% 400%;
+		animation: gradient 15s ease infinite;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 0.5rem;
+		height: 100dvh;
+	}
+
+	@keyframes gradient {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+		  background-position: 100% 50%;
+		}
+		100% {
+		  background-position: 0% 50%;
+		}
+	}
+
+	img {
+		width: 2.5rem;
+		height: auto;
+		border-radius: 50%;
+		display: inline-block;
+	}
+
+	button {
+		background-color: whitesmoke;
+		border: none;
+		color: black;
+		padding: 15px 32px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		margin: .5rem .5rem;
+		width: 5rem;
+		aspect-ratio: 1;
+		cursor: pointer;
+		border-radius: 50%;
+		border: 2px solid black;
+	}
+
+	.hoverable:hover, button:hover {
+		transition: 0.3s;
+		scale: 1.25;
+	}
+
+	.hoverable:hover {
+		display: inline-block;
+	}
+
+	button:active {
+		background-color: white;
+	}
+
+	h1 {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		flex-direction: row;
+	}
+
+	h3 {
+		margin-top: 1rem;
+		font-size: 3rem;
+		width: 100%;
+	}
+    </style>
+  </head>
+
+  <body>
+  	<h1>👋<img src="https://emmyjs.pages.dev/eanorambuena.webp" class="hoverable alt="Emmanuel Norambuena" /></h1>
+  	<p>Hola, soy <a href="https://github.com/eanorambuena">@eanorambuena</a> y este es mi archivo HTML</p>
+	<emmy-counter></emmy-counter>
+	<h2>¿Sabías que este contador es un componente<br /> que no usa React ni frameworks?</h2>
+	<p>Se llaman Web Components, conoce cómo usarlos fácilmente <a href="https://emmyjs.pages.dev/documentation">usando Emmy.js aquí</a></p>
+	<script type="module">
+		import { load, useState } from 'https://cdn.jsdelivr.net/npm/emmy-dom@0.0.3'
+		function counter(el) {
+			const [count, setCount] = useState(0)
+			el.callback = () => {
+				el.querySelector('#increment').addEventListener('click', () => setCount(count() + 1))
+				el.querySelector('#decrement').addEventListener('click', () => setCount(count() - 1))
+			}
+			return () => `
+				<h3>Contador: <span class="hoverable">${count()}</span></h3>
+				<button id='increment'>+</button>
+				<button id='decrement'>-</button>
+			`
+		}
+		load(counter, 'Counter')
+	</script>
+	</body>
+</html>
