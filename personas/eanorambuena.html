@@ -86,7 +86,9 @@
   </head>
 
   <body>
-  	<h1>👋<img src="https://emmyjs.pages.dev/eanorambuena.webp" class="hoverable alt="Emmanuel Norambuena" /></h1>
+  	<h1>👋<a href="https://www.linkedin.com/in/eanorambuena/" class="hoverable">
+		<img src="https://emmyjs.pages.dev/eanorambuena.webp" alt="Emmanuel Norambuena" />
+	</a></h1>
   	<p>Hola, soy <a href="https://github.com/eanorambuena">@eanorambuena</a> y este es mi archivo HTML</p>
 	<emmy-counter></emmy-counter>
 	<h2>¿Sabías que este contador es un componente<br /> que no usa React ni frameworks?</h2>
@@ -101,8 +103,8 @@
 			}
 			return () => `
 				<h3>Contador: <span class="hoverable">${count()}</span></h3>
-				<button id='increment'>+</button>
-				<button id='decrement'>-</button>
+				<button id='increment' aria-label='Incrementar contador'>+</button>
+				<button id='decrement' aria-label='Disminuir contador'>-</button>
 			`
 		}
 		load(counter, 'Counter')
