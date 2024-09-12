@@ -1,0 +1,180 @@
+<html>
+  <head>
+    <title>HTML Pull Request</title>
+
+    <style>
+      body {
+        color: white;
+        font-family: sans-serif;
+        font-size: large;
+        font-weight: bold;
+        text-align: center;
+        line-height: 1.65em;
+        padding: 10% 15px;
+        margin: 0;
+        background: linear-gradient(-90deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+      }
+
+      @keyframes gradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+      }
+
+      .song-line {
+        opacity: 0;
+        animation: fadeInOut 5.6s ease-in-out infinite;
+      }
+
+      /* Animación para que el texto aparezca y desaparezca */
+      @keyframes fadeInOut {
+        0% {
+          opacity: 0;
+        }
+        5% {
+          opacity: 1;
+        }
+        15% {
+          opacity: 1;
+        }
+        20% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      /* Diferentes retrasos para cada línea */
+      #line1 {
+        animation-delay: 0s;
+      }
+
+      #line2 {
+        animation-delay: 1.4s;
+      }
+
+      #line3 {
+        animation-delay: 2.8s;
+      }
+
+      #line4 {
+        animation-delay: 4.2s;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1 class="song-line" id="line1">👋</h1>
+
+    <p class="song-line" id="line1">Hi, my name is...</p>
+    <h3 class="song-line" id="line2">What? My name is...</h3>
+    <h2 class="song-line" id="line3">Who? My name is...</h2>
+    <h1 class="song-line" id="line4"><a href="https://github.com/cristobalnic">@cristobalnic</a>, and this is my HTML</h1>
+
+    <div class="song-line" id="line4">
+        <img src=https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExeXdnb3Rkd3R1aXV1ZTAwc2lraTVwa2wybnV6cGxhOWh0c2hleHZ0MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6fIYAIgb8IskmXBe/giphy.gif alt="Animación" class="animated-character">
+    </div>
+
+    <canvas id="tetris"></canvas>
+
+    <script>
+      const canvas = document.getElementById("tetris");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const colors = ["#ff0", "#0ff", "#f0f", "#0f0", "#f00", "#00f", "#ffa500"];
+      const tetrominoes = [
+        [[1, 1, 1], [0, 1, 0]], // T-shape
+        [[1, 1, 1, 1]], // I-shape
+        [[1, 1], [1, 1]], // O-shape
+        [[0, 1, 1], [1, 1, 0]], // S-shape
+        [[1, 1, 0], [0, 1, 1]], // Z-shape
+        [[1, 1, 1], [1, 0, 0]], // L-shape
+        [[1, 1, 1], [0, 0, 1]], // J-shape
+      ];
+
+      class TetrisPiece {
+        constructor() {
+          this.shape = tetrominoes[Math.floor(Math.random() * tetrominoes.length)];
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.x = Math.random() * canvas.width;
+          this.y = -Math.random() * canvas.height;
+          this.size = 30;
+          this.speed = 1 + Math.random() * 1;
+          this.rotationCounter = 0;
+          this.rotateInterval = Math.floor(Math.random() * 100) + 100; // Tiempo entre rotaciones
+        }
+
+        // Función para rotar una matriz 90 grados
+        rotate(shape) {
+          const rotatedShape = shape[0].map((_, index) =>
+            shape.map(row => row[index]).reverse()
+          );
+          return rotatedShape;
+        }
+
+        draw() {
+          ctx.fillStyle = this.color;
+          for (let row = 0; row < this.shape.length; row++) {
+            for (let col = 0; col < this.shape[row].length; col++) {
+              if (this.shape[row][col]) {
+                ctx.fillRect(
+                  this.x + col * this.size,
+                  this.y + row * this.size,
+                  this.size,
+                  this.size
+                );
+              }
+            }
+          }
+        }
+
+        update() {
+          this.y += this.speed;
+
+          // Cada cierto tiempo gira 90 grados
+          if (this.rotationCounter++ >= this.rotateInterval) {
+            this.shape = this.rotate(this.shape);
+            this.rotationCounter = 0;
+          }
+
+          // Reinicia posición cuando salga de la pantalla
+          if (this.y > canvas.height) {
+            this.y = -this.size * this.shape.length;
+            this.x = Math.random() * canvas.width;
+            this.shape = tetrominoes[Math.floor(Math.random() * tetrominoes.length)];
+          }
+
+          this.draw();
+        }
+      }
+
+      const pieces = Array.from({ length: 10 }, () => new TetrisPiece());
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach(piece => piece.update());
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    </script>
+  </body>
+</html>
