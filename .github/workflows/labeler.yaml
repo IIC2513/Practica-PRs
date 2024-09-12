@@ -10,6 +10,9 @@ jobs:
     name: Add "2024-2" label
     runs-on: ubuntu-22.04
 
+    permissions:
+      pull-requests: write
+
     steps:
       - name: Add 2024-2 label
         env:
