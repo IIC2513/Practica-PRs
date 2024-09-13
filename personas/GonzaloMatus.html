@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <title>Hello, world.</title>
+
+    <style>
+	body {
+		color: white;
+		font-family: sans-serif;
+		font-size: large;
+		font-weight: bold;
+		text-align: center;
+		line-height: 1.65em;
+		padding: 10% 15px;
+		margin: 0;
+		background: linear-gradient(-90deg, #ffe700, #f7daea, #efb6d4, #e791bf);
+		background-size: 400% 400%;
+		animation: gradient 2s ease infinite;
+	}
+
+	@keyframes gradient {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+		  background-position: 100% 50%;
+		}
+		100% {
+		  background-position: 0% 50%;
+		}
+	}
+    </style>
+  </head>
+
+  <body>
+  	<h1>Poyo!</h1>
+  	<p>Hola, soy <a href="https://github.com/GonzaloMatus">@GonzaloMatus</a> y este es mi archivo HTML</p>
+  	<img src="https://media.tenor.com/prn7gJhr5xgAAAAi/kirby-headphones.gif" alt="Descripción de la imagen" width="300px" onclick="playMusic()" style="cursor: pointer;">
+  	<iframe id="music" width="0" height="0" src="https://www.youtube.com/embed/Se1uh3PS78Y?enablejsapi=1&loop=1" frameborder="0"></iframe>
+
+  	<script>
+  	  function playMusic() {
+  	    var iframe = document.getElementById("music");
+  	    iframe.src += "&autoplay=1";
+  	  }
+  	</script>
+
+  </body>
+</html>
