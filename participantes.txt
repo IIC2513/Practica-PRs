@@ -17,6 +17,7 @@ FranciscoOrtuzar
 gabo1243
 GonzaloMatus
 gustavopalaciosc
+GSegov1a
 IanZmen
 IgnacioM4rtinez
 isufan
@@ -40,4 +41,3 @@ Tamarindinho
 TitoLlona
 Trycoz
 waldoosg
-GSegov1a
