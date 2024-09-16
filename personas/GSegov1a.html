@@ -1,0 +1,200 @@
+<html>
+  <head>
+    <title>Hello, world.</title>
+
+    <style>
+	body {
+		color: white;
+		font-family: sans-serif;
+		font-size: large;
+		font-weight: bold;
+		text-align: center;
+		line-height: 1.65em;
+		padding: 5% 5px;
+		margin: 0;
+		background: linear-gradient(-90deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+		background-size: 400% 400%;
+		animation: gradient 15s ease infinite;
+	}
+
+    canvas {
+            display: block;
+            margin: 20px auto;
+            background-color: #111;
+        }
+
+	@keyframes gradient {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+		  background-position: 100% 50%;
+		}
+		100% {
+		  background-position: 0% 50%;
+		}
+	}
+    </style>
+  </head>
+
+  <body>
+  	<h1>👋</h1>
+  	<p>Hola, soy <a href="https://github.com/GSegov1a">@GSegov1a</a> y este es mi archivo HTML</p>
+
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <script>
+
+        const canvas = document.getElementById("gameCanvas");
+        const plt = canvas.getContext("2d");
+        
+        const player = {
+            originX: canvas.width - 200,
+            x: canvas.width - 200,
+            y: canvas.height - 30,
+            width: 15,
+            height: 20,
+            speed: 3,
+            move: 0
+        };
+  
+        const invader = {
+            originY: canvas.height - 380,
+            x: canvas.width - 200,
+            y: canvas.height - 380,
+            width: 30,
+            height: 10,
+            speed: 4,
+            step:35
+        };
+  
+        const bullet = {
+            x: 0,
+            y: canvas.height,
+            width: 2,
+            height: 10,
+            speed: 5,
+            active: false
+        };
+  
+        function drawPlayer() {
+            plt.fillStyle = 'white';
+            plt.fillRect(player.x, player.y, player.width, player.height);
+        }
+  
+        function drawInvader() {
+            plt.fillStyle = 'green';
+            plt.fillRect(invader.x, invader.y, invader.width, invader.height);
+        }
+  
+        function drawBullet() {
+            if (bullet.active) {
+                plt.fillStyle = 'red';
+                plt.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+            }
+        }
+  
+        function movePlayer() {
+            player.x += player.move;
+
+            // Limitar movimientos a los bordes
+            if (player.x < 0) {
+                player.x = 0;
+            }
+            
+            if (player.x + player.width > canvas.width) {
+                player.x = canvas.width - player.width;
+            }
+        }
+  
+        function moveInvader() {
+            invader.x += invader.speed;
+
+            if (invader.x < 0 || invader.x + invader.width > canvas.width) {
+                invader.y += invader.step
+                invader.speed = invader.speed * -1; // Cambia de dirección
+            }
+        }
+  
+        function moveBullet() {
+            if (bullet.active) {
+                bullet.y -= bullet.speed;
+                // Desactiva la bala si sale del canvas
+                if (bullet.y < 0) {
+                    bullet.active = false;
+                }
+              }
+        }
+  
+        function shoot() {
+            if (!bullet.active) {
+                bullet.x = player.x + player.width / 2;
+                bullet.y = player.y - 10 ;
+                bullet.active = true;
+            }
+        }
+  
+        function checkCollision() {
+            if (bullet.active &&
+                bullet.x < invader.x + invader.width &&
+                bullet.x > invader.x &&
+                bullet.y < invader.y + invader.height &&
+                bullet.y > invader.y) {
+                bullet.active = false;
+                invader.x = Math.random() * (canvas.width - invader.width);
+                invader.y = invader.originY; // Restablecer posición del invader    
+            }
+        }
+
+        function checkGameOver() {
+            if (invader.y + invader.height > player.y&&
+                invader.x + invader.width > player.x &&
+                invader.x < player.x + player.width) {
+                player.x = player.originX;
+                invader.y = invader.originY; // Restablecer posición del invader 
+            }
+        }
+
+        function clearCanvas() {
+            plt.clearRect(0, 0, canvas.width, canvas.height);
+          }
+  
+        function update() {
+            clearCanvas();
+            drawPlayer();
+            drawInvader();
+            drawBullet();
+
+            movePlayer();
+            moveInvader();
+            moveBullet();
+            checkCollision();
+            checkGameOver();
+
+            requestAnimationFrame(update);
+        }
+  
+        function keyDown(e) {
+            if (e.key === 'ArrowRight') {
+                player.move = player.speed;
+            }
+            else if (e.key === 'ArrowLeft') {
+                player.move = -player.speed;
+            }
+            else if (e.key === ' ') {
+                shoot();
+            }
+        }
+  
+        function keyUp(e) {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                player.move = 0;
+            }
+        }
+  
+        document.addEventListener('keydown', keyDown);
+        document.addEventListener('keyup', keyUp);
+  
+        update();
+      </script>
+  </body>
+</html>
