@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>k0rval4n</title>
+    <style>
+        /* https://stackoverflow.com/a/4407335 */
+        .noselect {
+        -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+                -khtml-user-select: none; /* Konqueror HTML */
+                -moz-user-select: none; /* Old versions of Firefox */
+                    -ms-user-select: none; /* Internet Explorer/Edge */
+                        user-select: none; /* Non-prefixed version, currently
+                                            supported by Chrome, Edge, Opera and Firefox */
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            touch-action: none;
+            overflow-y: auto;
+            overflow-x: hidden;
+            color: #f2f2f2;
+            text-align: center;
+            font-family: monospace;
+        }
+        a {
+            color: #00bdfc;
+        }
+
+        #my-background {
+            background: linear-gradient(90deg, #370000, #371c00, #2c2c00, #002511, #120c37, #370037);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            position: fixed;
+            top: -150%;
+            left: -150%;
+            width: 400%;
+            height: 400%;
+            z-index: -1;
+        }
+
+        @keyframes gradient {
+            0% {
+                rotate: 0deg;
+                background-position: 0% 50%;
+            }
+            50% {
+                rotate: 180deg;
+                background-position: 100% 50%;
+            }
+            100% {
+                rotate: 360deg;
+            background-position: 0% 50%;
+            }
+        }
+    </style>
+</head>
+<body class="noselect">
+    <div id="my-background"></div>
+    <h1 style="margin-top: 5vh;">¡Hola! Soy <a href="https://github.com/k0rval4n" target="_blank" rel="noopener noreferrer">@k0rval4n</a> 👋</h1>
+    <p style="margin-bottom: 4vh;">Este es un juego de Tetris hecho por mí usando JavaScript, ¡espero te entretenga!</p>
+    <iframe src="k0rval4n-tetros-js/index.html" style="border: none; height: 70vh; width: 80vw; min-height: 600px;"></iframe>
+</body>
+</html>

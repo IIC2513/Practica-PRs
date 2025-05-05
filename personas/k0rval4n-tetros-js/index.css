@@ -1,0 +1,267 @@
+/* https://stackoverflow.com/a/4407335 */
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+          -moz-user-select: none; /* Old versions of Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+                user-select: none; /* Non-prefixed version, currently
+                                      supported by Chrome, Edge, Opera and Firefox */
+}
+
+:root {
+  --white: #f2f2f2;
+  --white-focused: #d2d2d2;
+  --game-board-height: 60vh;
+  --game-board-min-height: 300px;
+  --game-board-width-without-vh: 30;
+  --game-board-width: calc(var(--game-board-width-without-vh) * 1vh);
+  --game-board-min-width-without-px: 150;
+  --game-board-min-width: calc(var(--game-board-min-width-without-px) * 1px);
+  --top-logos-height: 3vh;
+  --top-logos-min-height: 15px;
+  --top-logos-width: 3vh;
+  --top-logos-min-width: 15px;
+  --variable-font-size: calc(var(--game-board-width-without-vh) * 16 / var(--game-board-min-width-without-px)* 1vh);
+  --font-size: max(var(--variable-font-size), 16px);
+  font-size: var(--font-size);
+}
+
+body {
+  background-color: transparent;
+  color: var(--white);
+  margin: 0;
+  padding: 0;
+  touch-action: none;
+  overflow: hidden;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#game-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #0d0d0d75;
+  width: calc(var(--game-board-width) * 1.15);
+  min-width: calc(var(--game-board-min-width) * 1.15);
+  height: calc((var(--game-board-height) + 7rem) * 1.06);
+  min-height: calc((var(--game-board-min-height) + 7rem) * 1.06);
+}
+
+#game-header {
+  width: var(--game-board-width);
+  min-width: var(--game-board-min-width);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+#github-logo, #github-repo-link, #info-logo {
+  color: var(--white);
+  height: var(--top-logos-height);
+  min-height: var(--top-logos-min-height);
+  width: var(--top-logos-width);
+  min-width: var(--top-logos-min-width);
+}
+
+#github-logo:hover, #github-repo-link:hover {
+  color: var(--white-focused);
+}
+
+#game-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 1.5rem;
+}
+
+#info-logo:hover {
+  color: var(--white-focused);
+  cursor: pointer;
+}
+
+#score-container, #level-container  {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#level-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#score-container {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+#score-prefix-container, #level-prefix-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+}
+
+#score-prefix-container > b, #level-prefix-container > b {
+  font-size: 0.75rem;
+}
+
+#score-value-container, #level-value-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+}
+
+#score-value-container > p, #level-value-container > p {
+  font-size: 0.75rem;
+  margin: 0;
+  color: white;
+}
+
+#game-board {
+  position: relative;
+}
+
+#game-board {
+  height: var(--game-board-height);
+  min-height: var(--game-board-min-height);
+  width: var(--game-board-width);
+  min-width: var(--game-board-min-width);
+}
+
+#game-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--game-board-height);
+  min-height: var(--game-board-min-height);
+}
+
+#game-board {
+  background-color: cadetblue;
+}
+
+.game-button {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  margin: 0.25rem 0;
+  height: 1.6rem;
+}
+
+#in-game-controls {
+  display: none;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#in-game-controls > div button {
+  width: calc(var(--game-board-width) * 0.5);
+  min-width: calc(var(--game-board-min-width) * 0.5);
+}
+
+#pause-and-resume-buttons > button {
+  background-color: cornflowerblue;
+  color: white;
+}
+
+#pause-button {
+  display: block;
+}
+
+#resume-button {
+  display: none;
+}
+
+#start-button {
+  width: var(--game-board-width);
+  min-width: var(--game-board-min-width);
+  background-color: #4CAF50;
+  color: white;
+}
+
+#stop-button {
+  display: block;
+  width: var(--game-board-width);
+  min-width: var(--game-board-min-width);
+  background-color: crimson;
+  color: white;
+}
+
+:modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: beige;
+  border: 2px solid burlywood;
+  border-radius: 5px;
+}
+
+::backdrop {
+  background-color: transparent;
+}
+
+#info-dialog {
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+#info-dialog > form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#close-info-btn {
+  display: block;
+  border: black solid 2px;
+  color: var(--white);
+  background-color: crimson;
+}
+
+#info-dialog-title {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+#keyboard-inputs-message, #touch-inputs-message {
+  margin: 0 0 0.3rem 0;
+  text-align: center;
+}
+
+#keyboard-inputs-container, #touch-inputs-container {
+  margin-bottom: 0.5rem;
+}
+
+#keyboard-inputs-container > table, #touch-inputs-container > table {
+  padding: 0 0.5rem 0 0.5rem;
+  border: black solid 2px;
+}
+
+#touch-inputs-container {
+  margin-top: 0.5rem;
+}
+
+#info-dialog-author-message {
+  font-size: 0.7rem;
+  margin: 0.3rem 0 0 0;
+}
