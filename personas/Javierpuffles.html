@@ -1,0 +1,149 @@
+<html>
+  <head>
+    <title>Javierpuffles</title>
+
+    <style>
+	body {
+		color: white;
+		font-family: sans-serif;
+		font-size: large;
+		font-weight: bold;
+		text-align: center;
+		line-height: 1.65em;
+		padding: 8% 15px;
+		margin: 0;
+		background: linear-gradient(-45deg, #016a44, #0300be, #2d44f2, #23d5ab, #2c937b);
+		background-size: 300% 300%;
+		animation: gradient 15s ease infinite;
+	}
+
+	@keyframes gradient {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+		  background-position: 100% 50%;
+		}
+		100% {
+		  background-position: 0% 50%;
+		}
+	}
+
+  #contenedor_cartas_gato_global{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+  }
+
+  .divisor_carta_gato{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: 50vh;
+    width: 20vw;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    box-shadow: 2px 2px 50px 5px rgba(5, 42, 255, 0.33);
+    animation: shadow-color 15s ease infinite;
+    color: rgb(0, 17, 113);;
+    border-color: rgb(255, 255, 255);
+    border-width: 5px;
+    border-style: solid;
+  }
+
+  @keyframes shadow-color {
+		0% {
+			box-shadow: 2px 2px 50px 5px rgba(5, 42, 255, 0.33);
+		}
+		50% {
+		  box-shadow: 2px 2px 50px 5px rgba(45, 238, 199, 0.652);
+		}
+		100% {
+		  box-shadow: 2px 2px 50px 5px rgba(5, 42, 255, 0.33);
+		}
+	}
+
+  .divisor_carta_gato:hover{
+    transform: scale(1.2);
+    animation: text-cat-color 5s ease infinite;
+    /* animation: border-color 5s ease infinite; */
+  }
+
+  .imagen_gato{
+    height: 65%;
+    width: 80%;
+    object-fit: cover;
+    border-radius: 1000px;
+    border-color: rgb(0, 17, 113);
+    border-width: 10px;
+    border-style: solid;
+  }
+
+  .imagen_gato:hover{
+    animation: border-color 5s ease infinite;
+  }
+
+  @keyframes border-color {
+		0% {
+			border-color: rgb(0, 17, 113);
+		}
+		50% {
+		  border-color: rgb(11, 190, 155);
+		}
+		100% {
+		  border-color: rgb(0, 17, 113);
+		}
+	}
+
+  .texto_carta_gato{
+    font-size: 35px;
+    margin-top: 15px;
+    margin-bottom: 0px;
+  }
+
+
+  @keyframes text-cat-color {
+		0% {
+			color: rgb(0, 17, 113);
+		}
+		50% {
+		  color: rgb(11, 190, 155);
+		}
+		100% {
+		  color: rgb(0, 17, 113);
+		}
+	}
+    </style>
+  </head>
+  <!-- 'referrerpolicy="no-referrer"' encontrado en 
+    https://stackoverflow.com/questions/40489569/images-from-imgur-com-is-not-displaying-on-website 
+  -->
+  <body>
+  	<h2 style="margin-bottom: 50px;">
+      Hola, soy 
+      <a style = "color: rgb(255, 255, 255)" href="https://github.com/Javierpuffles">@Javierpuffles</a> 
+      y estos son mis gatos:
+    </h2>
+    <div id = "contenedor_cartas_gato_global">
+      <div class="divisor_carta_gato">
+        <img class= "imagen_gato"  src = "https://i.imgur.com/SKo3K81.jpeg" referrerpolicy="no-referrer"/>
+        <h4 class = "texto_carta_gato">Gatúbela</h4>
+      </div>
+      <div class="divisor_carta_gato">
+        <img class= "imagen_gato"  src = "https://i.imgur.com/5VKrgkS.jpeg" referrerpolicy="no-referrer"/>
+        <h4 class = "texto_carta_gato">Cochinito</h4>
+      </div>
+      <div class="divisor_carta_gato">
+        <img class= "imagen_gato"  src = "https://i.imgur.com/TlRWoY8.jpeg" referrerpolicy="no-referrer"/>
+        <h4 class = "texto_carta_gato">Anastasia</h4>
+      </div>
+      <div class="divisor_carta_gato">
+        <img class= "imagen_gato"  src = "https://i.imgur.com/mLltWCZ.jpeg" referrerpolicy="no-referrer"/>
+        <h4 class = "texto_carta_gato">Violeta</h4>
+      </div>
+    </div>
+  </body>
+</html>
