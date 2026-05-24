@@ -1,0 +1,130 @@
+<head>
+<title>ola mundo</title>
+<style>
+  html, body { margin: 0; padding: 0; }
+ 
+  body {
+    color: white;
+    font-family: sans-serif;
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.65em;
+    padding: 10% 15px;
+    background: #0a0a12;        
+    min-height: 100vh;
+  }
+ 
+  #bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+  }
+
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+ 
+<h1>👋</h1>
+<p>Hola, soy <a href="https://github.com/igufu">@igufu</a> y este es mi archivo HTML*</p>
+<p>Animación de fondo robada de <a href="https://gpfault.net/posts/mandelbrot-webgl.txt.html">acá</a></p>
+
+
+<script>
+    const canvas = document.getElementById('bg');
+    const gl = canvas.getContext('webgl');
+
+    const vertSrc = 
+    `
+    attribute vec2 a_pos;
+    void main() { gl_Position = vec4(a_pos, 0.0, 1.0); } 
+    `;
+    
+    const fragSrc = 
+    `
+
+    precision highp float;
+    uniform vec2 canvas_size;
+    uniform int u_maxIterations;
+    uniform float u_time;
+    uniform vec2 c;
+    vec2 f(vec2 z, vec2 c) {
+        return vec2(z.x*z.x - z.y*z.y, 2.0*z.x*z.y) + c;
+    }
+
+
+    void main() {
+        vec2 uv = (gl_FragCoord.xy - 0.5 * canvas_size) / min(canvas_size.x, canvas_size.y);
+        vec2 z  = uv * 0.9;
+        bool escaped = false;
+        int iterations = 0;
+        for (int i = 0; i < 200; i++) {
+            z = f(z, c);
+            if (length(z) > 2.0) {
+                escaped = true;
+                iterations = i;
+                break;
+            }
+        }
+        float t = float(iterations) / 40.0 + u_time * 0.1; 
+        gl_FragColor = escaped ? vec4(vec3(float(iterations)) / float(u_maxIterations), 1.0): vec4(0.0, 0.0, 0.0, 1);
+    }
+    `;
+
+  function compile(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        console.error(gl.getShaderInfoLog(s));
+        }
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, compile(gl.VERTEX_SHADER, vertSrc));
+  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fragSrc));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+ 
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+  -1,-1,  1,-1,  -1, 1,
+  -1, 1,  1,-1,   1, 1]), gl.STATIC_DRAW);
+  const aPos = gl.getAttribLocation(prog, 'a_pos');
+  gl.enableVertexAttribArray(aPos);
+  gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+ 
+  const canvas_px = gl.getUniformLocation(prog, 'canvas_size');
+  const c = gl.getUniformLocation(prog, 'c');
+  const u_maxIterations = gl.getUniformLocation(prog, 'u_maxIterations');
+  const u_time = gl.getUniformLocation(prog, 'u_time');
+ 
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function frame(now) {
+    const t = now * 0.000003 + 2.28;          
+    const cx = 0.8 * Math.cos(t);
+    const cy = 0.81 * Math.sin(t);
+ 
+    gl.uniform2f(canvas_px, canvas.width, canvas.height);
+    gl.uniform1i(u_maxIterations, 1000);
+    gl.uniform1f(u_time, now * 0.001);
+    gl.uniform2f(c, cx, cy);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+ 
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+</script>
+</body>
+</html>
+ 
